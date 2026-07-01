@@ -1,0 +1,14 @@
+{
+  "name": "ai-rock-paper-scissors",
+  "version": "1.0.0",
+  "description": "AI Rock Paper Scissors using MediaPipe Hand Gesture Recognition",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "serve .",
+    "start": "serve ."
+  },
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}

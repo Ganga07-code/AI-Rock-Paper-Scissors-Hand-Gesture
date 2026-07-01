@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Rock Paper Scissors</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand" aria-label="App title and logo">
+        <span class="brand-mark" aria-hidden="true">✊✋✌</span>
+        <div>
+          <p class="eyebrow">Live Gesture Arena</p>
+          <h1>AI Rock Paper Scissors</h1>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button id="soundToggleBtn" type="button" class="action-button icon-button" aria-pressed="true" aria-label="Toggle sound">🔊</button>
+        <button id="darkModeBtn" type="button" class="action-button icon-button" aria-pressed="false" aria-label="Toggle dark mode">🌙</button>
+      </div>
+    </header>
+
+    <section class="scoreboard" aria-label="Scoreboard">
+      <div class="score-card player-card" id="playerCard">
+        <span>Player</span>
+        <strong id="playerScore">0</strong>
+      </div>
+      <div class="score-card draw-card" id="drawCard">
+        <span>Draws</span>
+        <strong id="drawScore">0</strong>
+      </div>
+      <div class="score-card ai-card" id="aiCard">
+        <span>AI</span>
+        <strong id="aiScore">0</strong>
+      </div>
+    </section>
+
+    <main class="game-panel">
+      <section class="camera-zone" aria-label="Webcam game zone">
+        <div class="camera-card glass-card">
+          <div class="camera-stage">
+            <video id="webcamVideo" playsinline muted></video>
+            <canvas id="outputCanvas" aria-label="Live webcam feed" width="640" height="480"></canvas>
+            <div id="handGlow" class="hand-glow" aria-hidden="true"></div>
+          </div>
+          <div class="camera-footer">
+            <div class="status-pill" id="playerMoveText">Waiting for gesture</div>
+            <div class="status-pill" id="aiMoveText">AI is waiting</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="status-zone">
+        <div class="panel glass-card">
+          <h2>Round Control</h2>
+          <p id="gameMessage" role="status" aria-live="polite">Raise a hand to play rock, paper or scissors.</p>
+          <div class="round-chip" id="countdownText">Ready</div>
+        </div>
+
+        <div class="panel glass-card gesture-guide">
+          <div>
+            <h3>Valid Gestures</h3>
+            <ul>
+              <li>✊ Rock</li>
+              <li>✋ Paper</li>
+              <li>✌ Scissors</li>
+            </ul>
+          </div>
+          <div class="gesture-badges">
+            <span class="badge">ROCK</span>
+            <span class="badge">PAPER</span>
+            <span class="badge">SCISSORS</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="action-row" aria-label="Game controls">
+      <button id="startCameraBtn" type="button" class="secondary-button">Start Camera</button>
+      <button id="playAgainBtn" type="button" class="primary-button">Play Again</button>
+      <button id="resetBtn" type="button" class="secondary-button">Reset Game</button>
+    </section>
+
+    <footer class="footer">
+      <p>Built for quick gesture battles with an AI opponent.</p>
+    </footer>
+
+    <div id="confettiLayer" class="confetti-layer" aria-hidden="true"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+  <script type="module" src="./script.js"></script>
+</body>
+</html>
