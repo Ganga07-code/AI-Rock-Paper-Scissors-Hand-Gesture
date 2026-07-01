@@ -10,14 +10,16 @@
   <div class="app-shell">
     <header class="topbar">
       <div class="brand" aria-label="App title and logo">
-        <span class="brand-mark" aria-hidden="true">✊✋✌</span>
-        <div>
+        <div class="brand-mark" aria-hidden="true">
+          <span class="brand-icon">AI</span>
+        </div>
+        <div class="brand-copy">
           <p class="eyebrow">Live Gesture Arena</p>
           <h1>AI Rock Paper Scissors</h1>
         </div>
       </div>
       <div class="top-actions">
-        <button id="soundToggleBtn" type="button" class="action-button icon-button" aria-pressed="true" aria-label="Toggle sound">🔊</button>
+        <button id="soundToggleBtn" type="button" class="action-button icon-button active" aria-pressed="true" aria-label="Toggle sound">🔊</button>
         <button id="darkModeBtn" type="button" class="action-button icon-button" aria-pressed="false" aria-label="Toggle dark mode">🌙</button>
       </div>
     </header>
@@ -39,10 +41,10 @@
 
     <main class="game-panel">
       <section class="camera-zone" aria-label="Webcam game zone">
-        <div class="camera-card glass-card">
+        <div class="camera-card">
           <div class="camera-stage">
             <video id="webcamVideo" playsinline muted></video>
-            <canvas id="outputCanvas" aria-label="Live webcam feed" width="640" height="480"></canvas>
+            <canvas id="outputCanvas" aria-label="Live webcam feed"></canvas>
             <div id="handGlow" class="hand-glow" aria-hidden="true"></div>
           </div>
           <div class="camera-footer">
@@ -53,21 +55,25 @@
       </section>
 
       <section class="status-zone">
-        <div class="panel glass-card">
-          <h2>Round Control</h2>
-          <p id="gameMessage" role="status" aria-live="polite">Raise a hand to play rock, paper or scissors.</p>
+        <div class="panel round-panel">
+          <div class="panel-head">
+            <div>
+              <h2>Round Control</h2>
+              <p id="gameMessage" role="status" aria-live="polite">Raise a hand to play rock, paper or scissors.</p>
+            </div>
+          </div>
           <div class="round-chip" id="countdownText">Ready</div>
         </div>
 
-        <div class="panel glass-card gesture-guide">
-          <div>
+        <div class="panel gesture-guide">
+          <div class="panel-head">
             <h3>Valid Gestures</h3>
-            <ul>
-              <li>✊ Rock</li>
-              <li>✋ Paper</li>
-              <li>✌ Scissors</li>
-            </ul>
           </div>
+          <ul>
+            <li>✊ Rock</li>
+            <li>✋ Paper</li>
+            <li>✌ Scissors</li>
+          </ul>
           <div class="gesture-badges">
             <span class="badge">ROCK</span>
             <span class="badge">PAPER</span>
@@ -84,7 +90,7 @@
     </section>
 
     <footer class="footer">
-      <p>Built for quick gesture battles with an AI opponent.</p>
+      <p>Ready for gesture battles with smooth AI scoring and live webcam tracking.</p>
     </footer>
 
     <div id="confettiLayer" class="confetti-layer" aria-hidden="true"></div>

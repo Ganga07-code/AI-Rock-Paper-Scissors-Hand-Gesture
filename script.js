@@ -21,7 +21,7 @@ const soundToggleBtn = document.getElementById('soundToggleBtn');
 const state = new GameState();
 const stabilizer = new GestureStabilizer(12, 0.7);
 let soundEnabled = true;
-let themeDark = false;
+let themeDark = JSON.parse(localStorage.getItem('themeDark')) ?? window.matchMedia('(prefers-color-scheme: dark)').matches;
 let moveLocked = false;
 let cameraInitialized = false;
 
@@ -157,6 +157,7 @@ function attachControls() {
 
   darkModeBtn.addEventListener('click', () => {
     themeDark = !themeDark;
+    localStorage.setItem('themeDark', JSON.stringify(themeDark));
     toggleTheme(themeDark);
     setThemeButton(themeDark);
   });
