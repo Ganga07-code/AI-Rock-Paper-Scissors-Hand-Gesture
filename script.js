@@ -2,11 +2,16 @@ import { initializeCamera } from './camera.js';
 import { classifyGesture, GestureStabilizer, getHandBox } from './gesture.js';
 import { getRandomAIMove, getWinner } from './ai.js';
 import { GameState } from './game.js';
-import { updateScoreboard, updateMoves, updateCountdown, setGlow, toggleTheme, setSoundButton, showConfetti } from './ui.js';
+import { updateScoreboard, updateMoves, updateCountdown, setGlow, toggleTheme, setSoundButton, setThemeButton, showConfetti } from './ui.js';
 
 const videoElement = document.getElementById('webcamVideo');
 const canvasElement = document.getElementById('outputCanvas');
 const canvasCtx = canvasElement.getContext('2d');
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+const renderWidth = isMobile ? 640 : 960;
+const renderHeight = isMobile ? 480 : 720;
+canvasElement.width = renderWidth;
+canvasElement.height = renderHeight;
 const resetBtn = document.getElementById('resetBtn');
 const playAgainBtn = document.getElementById('playAgainBtn');
 const startCameraBtn = document.getElementById('startCameraBtn');
@@ -153,7 +158,7 @@ function attachControls() {
   darkModeBtn.addEventListener('click', () => {
     themeDark = !themeDark;
     toggleTheme(themeDark);
-    darkModeBtn.textContent = themeDark ? '☀️' : '🌙';
+    setThemeButton(themeDark);
   });
 
   if (startCameraBtn) {
@@ -177,8 +182,12 @@ async function initCamera() {
       throw new Error('Webcam not available');
     }
 
-    await initializeCamera(videoElement, onResults);
+    const result = await initializeCamera(videoElement, onResults);
     cameraInitialized = true;
+    if (result.width && result.height) {
+      canvasElement.width = result.width;
+      canvasElement.height = result.height;
+    }
     if (startCameraBtn) {
       startCameraBtn.style.display = 'none';
     }
@@ -195,6 +204,7 @@ async function startApp() {
   updateScoreboard(state);
   setSoundButton(soundEnabled);
   toggleTheme(themeDark);
+  setThemeButton(themeDark);
   attachControls();
   initCamera();
 }

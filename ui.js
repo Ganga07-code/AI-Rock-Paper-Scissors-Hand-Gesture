@@ -63,9 +63,10 @@ export function updateCountdown(remainingMs) {
 export function setGlow(bounds) {
   if (!bounds) {
     handGlow.style.opacity = '0';
+    handGlow.classList.remove('active');
     return;
   }
-  handGlow.style.opacity = '1';
+  handGlow.classList.add('active');
   handGlow.style.transform = `translate(${bounds.x}px, ${bounds.y}px) scale(1)`;
   handGlow.style.width = `${bounds.width}px`;
   handGlow.style.height = `${bounds.height}px`;
@@ -83,6 +84,14 @@ export function setSoundButton(enabled) {
   const soundButton = document.getElementById('soundToggleBtn');
   soundButton.textContent = enabled ? '🔊' : '🔇';
   soundButton.setAttribute('aria-pressed', String(enabled));
+  soundButton.classList.toggle('active', enabled);
+}
+
+export function setThemeButton(enabled) {
+  const themeButton = document.getElementById('darkModeBtn');
+  themeButton.textContent = enabled ? '☀️' : '🌙';
+  themeButton.setAttribute('aria-pressed', String(enabled));
+  themeButton.classList.toggle('active', enabled);
 }
 
 export function showConfetti() {

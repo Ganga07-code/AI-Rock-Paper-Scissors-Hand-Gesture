@@ -13,23 +13,44 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--text);
-  background: radial-gradient(circle at top left, rgba(57, 132, 255, 0.18), transparent 26%),
-    radial-gradient(circle at bottom right, rgba(109, 240, 217, 0.12), transparent 24%),
-    linear-gradient(135deg, #050816 0%, #0f1229 48%, #090b1c 100%);
+  background-color: var(--bg);
+  background-image: radial-gradient(circle at top left, rgba(124, 140, 255, 0.18), transparent 18%),
+    radial-gradient(circle at bottom right, rgba(109, 240, 217, 0.14), transparent 26%),
+    linear-gradient(180deg, rgba(13, 18, 46, 0.95), rgba(1, 5, 18, 0.98));
+  background-size: 200% 200%, 200% 200%, cover;
+  background-attachment: fixed;
   font-family: Inter, system-ui, sans-serif;
   display: flex;
   justify-content: center;
   padding: 24px;
+  transition: background-color 0.45s ease, color 0.45s ease, background-position 12s ease-in-out;
+  animation: backgroundShift 18s ease-in-out infinite alternate;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 14% 18%, rgba(124, 140, 255, 0.18), transparent 16%),
+    radial-gradient(circle at 84% 24%, rgba(109, 240, 217, 0.16), transparent 18%);
+  pointer-events: none;
+  opacity: 0.9;
 }
 
 body.dark {
   --bg: #02030b;
-  --panel: rgba(10, 12, 28, 0.84);
-  --panel-soft: rgba(255, 255, 255, 0.06);
-  --text: #e8efff;
-  --muted: #b6c3ff;
-  --accent: #7fd4ff;
-  --accent2: #75ffdb;
+  --panel: rgba(4, 6, 18, 0.92);
+  --panel-soft: rgba(255, 255, 255, 0.05);
+  --text: #edf2ff;
+  --muted: #9bb0ff;
+  --accent: #7ef4ff;
+  --accent2: #5a9cff;
+}
+
+body.dark::before {
+  opacity: 0.75;
+  background: radial-gradient(circle at 14% 18%, rgba(112, 188, 255, 0.12), transparent 16%),
+    radial-gradient(circle at 84% 24%, rgba(93, 219, 255, 0.12), transparent 18%);
 }
 
 button,
@@ -46,6 +67,7 @@ button:focus-visible {
   width: min(1200px, 100%);
   display: grid;
   gap: 20px;
+  animation: floatIn 0.9s ease-out both;
 }
 
 .topbar {
@@ -53,6 +75,15 @@ button:focus-visible {
   justify-content: space-between;
   align-items: center;
   gap: 16px;
+  padding: 18px 22px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(24px);
+}
+
+body.dark .topbar {
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .brand {
@@ -98,14 +129,21 @@ button:focus-visible {
   background: rgba(255, 255, 255, 0.08);
   color: var(--text);
   cursor: pointer;
-  transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+  transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease, color 180ms ease;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+}
+
+.action-button.active {
+  background: linear-gradient(135deg, rgba(124, 140, 255, 0.95), rgba(109, 240, 217, 0.95));
+  color: #051221;
+  box-shadow: 0 20px 45px rgba(109, 240, 217, 0.24);
 }
 
 .action-button:hover,
 .primary-button:hover,
 .secondary-button:hover {
   transform: translateY(-2px);
+  box-shadow: 0 20px 35px rgba(124, 140, 255, 0.22);
 }
 
 .icon-button {
@@ -161,6 +199,11 @@ button:focus-visible {
   gap: 24px;
 }
 
+.status-zone {
+  display: grid;
+  align-content: start;
+}
+
 .camera-zone,
 .status-zone {
   display: grid;
@@ -175,6 +218,19 @@ button:focus-visible {
   padding: 20px;
   box-shadow: var(--shadow);
   backdrop-filter: blur(18px);
+  transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.45s ease, border 0.45s ease;
+}
+
+.camera-card:hover,
+.panel:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.22);
+}
+
+.camera-card:hover,
+.panel:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.22);
 }
 
 .camera-stage {
@@ -191,6 +247,18 @@ button:focus-visible {
   height: auto;
   display: block;
   transform: scaleX(-1);
+  border-radius: 24px;
+  filter: drop-shadow(0 18px 45px rgba(0, 0, 0, 0.22));
+}
+
+.camera-stage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent 20%),
+    radial-gradient(circle at 70% 70%, rgba(109, 240, 217, 0.1), transparent 18%);
+  opacity: 0.35;
 }
 
 #webcamVideo {
@@ -205,6 +273,10 @@ button:focus-visible {
   opacity: 0;
   transition: opacity 220ms ease, transform 220ms ease;
   will-change: opacity, transform;
+}
+
+.hand-glow.active {
+  opacity: 1;
 }
 
 .status-pill {
@@ -236,10 +308,11 @@ button:focus-visible {
   align-items: center;
   justify-content: center;
   min-width: 150px;
-  background: linear-gradient(135deg, rgba(124, 140, 255, 0.14), rgba(109, 240, 217, 0.12));
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(135deg, rgba(124, 140, 255, 0.18), rgba(109, 240, 217, 0.14));
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--accent2);
   font-weight: 700;
+  box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.05);
 }
 
 .gesture-guide ul {
@@ -266,9 +339,10 @@ button:focus-visible {
   justify-content: center;
   padding: 12px 16px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--text);
   font-weight: 600;
+  box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.04);
 }
 
 .action-row {
@@ -289,7 +363,7 @@ button:focus-visible {
 }
 
 .primary-button {
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  background: linear-gradient(135deg, rgba(124, 140, 255, 0.95), rgba(109, 240, 217, 0.95));
   color: #051221;
   box-shadow: 0 18px 40px rgba(109, 240, 217, 0.18);
 }
@@ -324,6 +398,7 @@ button:focus-visible {
   position: fixed;
   inset: 0;
   z-index: 10;
+  mix-blend-mode: screen;
 }
 
 .confetti-piece {
@@ -374,6 +449,10 @@ button:focus-visible {
   .game-panel {
     grid-template-columns: 1fr;
   }
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
 @media (max-width: 768px) {
@@ -411,5 +490,16 @@ button:focus-visible {
   }
   .status-pill {
     min-width: 100%;
+  }
+}
+
+@keyframes floatIn {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

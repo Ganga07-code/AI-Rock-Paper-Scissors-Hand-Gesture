@@ -14,20 +14,30 @@ export async function initializeCamera(videoElement, onResults) {
     maxNumHands: 1,
     modelComplexity: isMobile ? 0 : 1,
     selfieMode: true,
-    minDetectionConfidence: isMobile ? 0.65 : 0.75,
-    minTrackingConfidence: isMobile ? 0.65 : 0.75,
+    minDetectionConfidence: isMobile ? 0.65 : 0.72,
+    minTrackingConfidence: isMobile ? 0.65 : 0.72,
   });
 
   hands.onResults(onResults);
 
+  const width = isMobile ? 640 : 960;
+  const height = isMobile ? 480 : 720;
+  const targetFps = isMobile ? 18 : 24;
+  let lastFrameTime = 0;
+
   const camera = new CameraClass(videoElement, {
     onFrame: async () => {
+      const now = performance.now();
+      if (now - lastFrameTime < 1000 / targetFps) {
+        return;
+      }
+      lastFrameTime = now;
       await hands.send({ image: videoElement });
     },
-    width: isMobile ? 640 : 1280,
-    height: isMobile ? 480 : 720,
+    width,
+    height,
   });
 
   await camera.start();
-  return { camera, hands };
+  return { camera, hands, width, height };
 }
